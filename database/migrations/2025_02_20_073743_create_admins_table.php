@@ -13,15 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('classes_clear_checks', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->notnull();
-            $table->string('name_kana')->notnull();
-            $table->string('email')->notnull()->unique();
-            $table->string('password')->notnull();
-            $table->string('profile_image')->nullable();
+            $table->integer('users_id')->notnull();
             $table->integer('grade_id')->notnull();
-            $table->rememberToken();
+            $table->integer('clear_flg')->notnull();
             $table->timestamps();
         });
     }
@@ -33,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('classes_clear_checks');
     }
 };
