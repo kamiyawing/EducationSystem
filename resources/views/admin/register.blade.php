@@ -1,14 +1,14 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('ユーザー新規登録画面') }}</div>
+                <div class="card-header">{{ __('Register') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ url('admin/register') }}">
                         @csrf
 
                         <div class="row mb-3">
@@ -26,10 +26,10 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="name_kana" class="col-md-4 col-form-label text-md-end">{{ __('フリガナ') }}</label>
+                            <label for="kana" class="col-md-4 col-form-label text-md-end">{{ __('フリガナ') }}</label>
 
                             <div class="col-md-6">
-                                <input id="name_kana" type="text" class="form-control @error('name_kana') is-invalid @enderror" name="name_kana" value="{{ old('name_kana') }}" required autocomplete="name_kana" autofocus>
+                                <input id="kana" type="text" class="form-control @error('kana') is-invalid @enderror" name="kana" value="{{ old('kana') }}" required autocomplete="kana" autofocus>
 
                                 @error('name')
                                     <span class="invalid-feedback" role="alert">
