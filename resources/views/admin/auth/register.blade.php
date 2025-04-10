@@ -5,13 +5,13 @@
     <div class="row justify-content-center">
         <div class="col-md-6">  
             <div class="text-end">
-                <a href="{{ route('admin.login') }}" class="text-muted">ログインはこちら</a> 
+                <a href="{{ route('admin.login.form') }}" class="text-muted">ログインはこちら</a> 
             </div>
             <h2 class="text-center mb-4" style="font-weight: bold;">新規管理ユーザー登録</h2>
 
             <div class="card p-4 shadow-sm">  
                 <div class="card-body">
-                    <form method="POST" action="{{ route('admin.register') }}">
+                    <form method="POST" action="{{ route('admin.register.form') }}">
                         @csrf
 
                         <div class="mb-3">

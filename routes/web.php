@@ -1,8 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\RegisterController;
-use App\Http\Controllers\Admin\LoginController;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Admin\Auth\RegisterController;
+use App\Http\Controllers\Admin\Auth\LoginController;
+use App\Http\Controllers\Admin\TopController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,20 +27,22 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('guest:admin')->group(function () {
-        Route::view('/login', 'admin.auth.login')->name('login');  
-        Route::post('/login', [LoginController::class, 'login']);
+        Route::view('/login', 'admin.auth.login')->name('login.form');  
+        Route::post('/login', [LoginController::class, 'login'])->name('login');
 
-        Route::view('/register', 'admin.auth.register')->name('register'); 
+        Route::view('/register', 'admin.auth.register')->name('register.form'); 
         Route::post('/register', [RegisterController::class, 'register']);
     });
 
     Route::middleware('auth:admin')->group(function () {
-        Route::view('/top', 'admin.top')->name('top'); 
+        Route::get('/top', [TopController::class, 'index'])->name('top'); 
     });
 
     Route::post('/logout', function () {
         Auth::guard('admin')->logout();
-        return redirect()->route('admin.auth.login');
+        request()->session()->invalidate(); // セッション無効化
+        request()->session()->regenerateToken(); // CSRFトークン再生成
+        return redirect()->route('admin.login');
     })->name('logout');
 
 });

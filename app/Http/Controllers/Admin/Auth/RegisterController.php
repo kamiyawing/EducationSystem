@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers\admin;       
+namespace App\Http\Controllers\Admin\Auth;       
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin;                         
@@ -32,10 +32,9 @@ class RegisterController extends Controller
             'kana' => ['required', 'regex:/^[ァ-ヶー]+$/u'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:admins,email'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ], [
-            'kana.regex' => '「カナ」で入力してください。',
-        ]);
+        ], trans('validation.register'));
     }
+    
 
     public function register(Request $request)
     {

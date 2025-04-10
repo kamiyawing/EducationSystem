@@ -1,38 +1,23 @@
 <?php
-
-return [
-    'required' => ':attribute は必須項目です。',
-    'unique' => ':attribute は既に使用されています。',
-    'email' => ':attribute には有効なメールアドレスを入力してください。',
-    'min' => [
-        'string' => ':attribute は :min 文字以上で入力してください。',
-    ],
-    'confirmed' => ':attribute が確認用と一致しません。',
+    return [
+        'register' => [
+            'name.required' => 'ユーザーネームは必須です。',
+            'name.unique' => 'このユーザーネームはすでに使用されています。',
+            'kana.required' => 'カナは必須です。',
+            'kana.regex' => 'カナは全角カタカナで入力してください。',
+            'email.required' => 'メールアドレスを入力してください。',
+            'email.email' => '有効なメールアドレスを入力してください。',
+            'email.unique' => 'このメールアドレスは既に使用されています。',
+            'password.required' => 'パスワードは必須です。',
+            'password.min' => 'パスワードは8文字以上で入力してください。',
+            'password.confirmed' => 'パスワードが一致しません。',
+        ],
+        
+        'login' => [
+            'email.required' => 'メールアドレスを入力してください。',
+            'email.email' => 'そのメールアドレスは登録されていません。',
+            'password.required' => '入力されたパスワードは登録のものと一致しませんでした。',
+            'password.min' => 'パスワードは8文字以上で入力してください。',
+        ]
+    ];
     
-    'custom' => [
-        'name' => [
-            'required' => 'ユーザーネームは必須です。',
-            'unique' => 'すでに使用されているユーザーネームです。',
-        ],
-        'kana' => [
-            'required' => 'カナは必須です。',
-            'regex' => '「カナ」で入力してください。',
-        ],
-        'email' => [
-            'required' => '無効なメールアドレスです。',
-            'unique' => 'このメールアドレスは既に使用されています。',
-        ],
-        'password' => [
-            'required' => 'パスワードは必須です。',
-            'min' => 'パスワードは8文字以上で入力してください。',
-            'confirmed' => 'パスワード確認が一致しません。',
-        ],
-    ],
-    
-    'attributes' => [
-        'name' => '名前',
-        'kana' => 'カナ',
-        'email' => 'メールアドレス',
-        'password' => 'パスワード',
-    ],
-];

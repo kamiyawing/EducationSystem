@@ -9,7 +9,7 @@
             <button class="btn btn-secondary">お知らせ管理</button>
             <button class="btn btn-secondary">バナー管理</button>
         </div>
-        <<form method="POST" action="{{ route('admin.logout') }}" class="d-inline">
+        <form method="POST" action="{{ route('admin.logout') }}" class="d-inline">
          @csrf
           <button type="submit" class="btn btn-link text-white">ログアウト</button>
         </form>
