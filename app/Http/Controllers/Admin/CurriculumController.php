@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Curriculum;
 use App\Models\Grade;
 use App\Models\DeliveryTime;
+use App\Http\Requests\CurriculumRequest;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 
@@ -26,9 +27,12 @@ class CurriculumController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function showCurriculumCreate()
+    {   
+        $grades = Grade::all();
+        return view('admin.layouts.curriculum_create' , [
+            'grades' => $grades
+        ]);
     }
 
     /**
@@ -37,9 +41,31 @@ class CurriculumController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function exeCurriculumStore(CurriculumRequest $request)
     {
-        //
+
+        \DB::beginTransaction();
+        try {
+            $curriculum = new Curriculum();
+
+            $curriculum->title = $request->input('title');
+            $curriculum->video_url = $request->input('video_url');
+            $curriculum->description = $request->input('description');
+            $curriculum->grade_id = $request->input('grade_id');
+            $curriculum->alway_delivery_flg = $request->input('alway_delivery_flg') ? 1 : 0;
+            $curriculum->video_url = $request->input('video_url');
+
+            $curriculum->save();
+            \DB::commit();
+
+        } catch(\Throwable $e) {
+            \DB::rollback();
+            abort(500);
+        }
+
+        \Session::flash('err_msg','授業を登録しました');
+        return redirect(route('admin.show.curriculum.list'));
+
     }
 
     /**
@@ -51,11 +77,12 @@ class CurriculumController extends Controller
     public function showCurriculumList()
     {
         $grades = Grade::all();
+        $curriculums = Curriculum::with('delivery_times')->paginate(6);
 
         return view('admin.layouts.curriculum_list', [
             'grades' => $grades,
             'curriculums' => $curriculums,
-            'delivery_times' => $delivery_time
+            // 'delivery_times' => $delivery_times
         ]);
     }
 
@@ -77,8 +104,22 @@ class CurriculumController extends Controller
      * @param  \App\Models\Curriculum  $curriculum
      * @return \Illuminate\Http\Response
      */
-    public function edit(Curriculum $curriculum)
+    public function showCurriculumEdit($id)
     {
+        $curriculums = Curriculum::with('grade')->find($id);
+
+        if (is_null($curriculums)) {
+            \Session::flash('err_msg','データがありません');
+            return redirect(route('admin.show.curriculum.list'));
+        }
+
+        $grades = Grade::all();
+
+        return view('admin.layouts.curriculum_edit' , [
+            'curriculums' => $curriculums,
+            'grade_id' => $curriculums->grade_id ,
+            'grades' => $grades
+        ]);
         //
     }
 
@@ -89,8 +130,9 @@ class CurriculumController extends Controller
      * @param  \App\Models\Curriculum  $curriculum
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Curriculum $curriculum)
+    public function exeCurriculumUpdate(Request $request, $id)
     {
+        $curriculum = Curriculum::find($id);
         //
     }
 

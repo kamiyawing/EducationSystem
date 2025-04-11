@@ -19,4 +19,5 @@ class Curriculum extends Model
     {
         return $this->hasMany(DeliveryTime::class, 'curriculums_id');
     }
+
 }

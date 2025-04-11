@@ -1,14 +1,16 @@
 @extends('admin.layouts.app')
 @section('content')
-  <div class="d-flex flex-column gap-3 my-4">
-    <a class="link-secondary link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover fs-4" href="#">
+  <div class="mt-3">
+    <a class="link-secondary d-inline link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover fs-4" href="#">
       戻る
     </a>
+  </div>
+  <div class="d-flex flex-column gap-3 my-4">
     <h1 class="display-6 ">授業一覧</h1>
   </div>
 
   <div class="d-flex align-items-center my-4">
-    <a href="#" class="btn btn-success btn-lg">新規登録</a>
+    <a href="{{ route('admin.show.curriculum.create') }}" class="btn btn-success btn-lg">新規登録</a>
     <h1 class="display-4 mb-3 px-5 mx-auto fw-bold border border-5 border-black rounded-pill bg-info-subtle">
       {{ $selectedGrade->name ?? 'すべてのカリキュラム' }}
     </h1>
@@ -56,7 +58,8 @@
               </h6>
             </div>
             <div class="card-footer text-center">
-              <button class="btn btn-light btn-sm">授業内容編集</button>
+              <button class="btn btn-light btn-sm" onclick="location.href='{{ route('admin.show.curriculum.edit', ['id' => $curriculum->id]) }}'">
+                授業内容編集</button>
               <button class="btn btn-light btn-sm">配信日時編集</button>
             </div>
           </div>
