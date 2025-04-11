@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     @vite(['resources/js/app.js'])
+    <script>window.curriculumFilterUrl = "{{ route('admin.curriculums.filter') }}";</script>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

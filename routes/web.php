@@ -37,6 +37,8 @@ Route::prefix('admin')->namespace('Admin')->name('admin.')->group(function () {
     
     Route::get('/curriculum_edit/{id}',[CurriculumController::class,'showCurriculumEdit'])->name('show.curriculum.edit');
     Route::post('/curriculum_update/{id}',[CurriculumController::class,'exeCurriculumUpdate'])->name('exe.curriculum.update');
+
+    Route::get('/curriculum_filter', [CurriculumController::class, 'filterCurriculums'])->name('curriculums.filter');
     
 });
 

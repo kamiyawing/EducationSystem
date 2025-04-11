@@ -146,4 +146,21 @@ class CurriculumController extends Controller
     {
         //
     }
+
+    public function filterCurriculums(Request $request)
+    {
+
+        $grade_id = $request->grade_id;
+        $curriculums = Curriculum::where('grade_id', $grade_id)->paginate(6);
+        $grades = Grade::all();
+        $selectedGrade = Grade::find($grade_id);
+
+        // if ($request->ajax()) {
+        //     return view('admin.layouts.curriculum_list', compact('curriculums', 'grades', 'selectedGrade'))
+        //     ->with('ajaxOnly', true);
+        // }
+
+        return view('admin.layouts.curriculum_list', compact('curriculums', 'grades', 'selectedGrade'))
+          ->with('ajaxOnly', $request->ajax());
+    }
 }
