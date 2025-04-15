@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\Auth\RegisterController;
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\TopController;
+use App\Http\Controllers\Admin\BannerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +37,18 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::middleware('auth:admin')->group(function () {
         Route::get('/top', [TopController::class, 'index'])->name('top'); 
+
+        Route::get('/culliculum', function () {
+            return view('admin.culliculum_list');
+        })->name('culliculum');
+    
+        Route::get('/article', function () {
+            return view('admin.article_list');
+        })->name('article');
+
+        Route::get('/banner', [BannerController::class, 'index'])->name('banner');
+        Route::post('/banner/upload', [BannerController::class, 'upload'])->name('banner.upload');
+        Route::delete('/banner/delete/{filename}', [BannerController::class, 'delete'])->name('banner.delete');
     });
 
     Route::post('/logout', function () {
