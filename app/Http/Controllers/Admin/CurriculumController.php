@@ -77,13 +77,11 @@ class CurriculumController extends Controller
     public function showCurriculumList()
     {
         $grades = Grade::all();
-        $curriculums = Curriculum::with('delivery_times')->paginate(6);
+        $selectedGrade = Grade::find(1);
+        $curriculums = Curriculum::where('grade_id', 1)->with('delivery_times')->paginate(6);
 
-        return view('admin.layouts.curriculum_list', [
-            'grades' => $grades,
-            'curriculums' => $curriculums,
-            // 'delivery_times' => $delivery_times
-        ]);
+        return view('admin.layouts.curriculum_list', compact('grades', 'curriculums', 'selectedGrade'));
+        
     }
 
 
@@ -152,15 +150,12 @@ class CurriculumController extends Controller
 
         $grade_id = $request->grade_id;
         $curriculums = Curriculum::where('grade_id', $grade_id)->paginate(6);
-        $grades = Grade::all();
         $selectedGrade = Grade::find($grade_id);
 
-        // if ($request->ajax()) {
-        //     return view('admin.layouts.curriculum_list', compact('curriculums', 'grades', 'selectedGrade'))
-        //     ->with('ajaxOnly', true);
-        // }
-
-        return view('admin.layouts.curriculum_list', compact('curriculums', 'grades', 'selectedGrade'))
-          ->with('ajaxOnly', $request->ajax());
+        return view('admin.layouts.curriculum_list', [
+            'curriculums' => $curriculums,
+            'selectedGrade' => $selectedGrade,
+            'ajaxOnly' => $request->ajax()
+        ]);
     }
 }
