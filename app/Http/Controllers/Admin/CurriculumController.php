@@ -152,6 +152,8 @@ class CurriculumController extends Controller
         $curriculums = Curriculum::where('grade_id', $grade_id)->paginate(6);
         $selectedGrade = Grade::find($grade_id);
 
+        $isAjaxOnly = $request->ajax() || $request->input('ajaxOnly');
+
         return view('admin.layouts.curriculum_list', [
             'curriculums' => $curriculums,
             'selectedGrade' => $selectedGrade,

@@ -17,7 +17,7 @@ $(document).on('click', '.grade-button', function () {
     $.ajax({
         url: window.curriculumFilterUrl,
         method: 'GET',
-        data: { grade_id: gradeId },
+        data: { grade_id: gradeId, ajaxOnly: 1 },
         success: function (res) {
             $('#curriculum-list').html(res);
         },
@@ -30,12 +30,18 @@ $(document).on('click', '.grade-button', function () {
 $(document).on('click', '.pagination a', function (e) {
     e.preventDefault();
 
-    const pageUrl = new URL($(this).attr('href'), window.location.origin);
     const activeGradeId = $('.grade-button.active').data('grade-id');
+    const page = new URL($(this).attr('href')).searchParams.get('page');
 
-    if (activeGradeId) {
-        pageUrl.searchParams.set('grade_id', activeGradeId);
+    if (!activeGradeId) {
+        alert('学年を選択してからページを切り替えてください');
+        return;
     }
+
+    const pageUrl = new URL(window.curriculumFilterUrl, window.location.origin);
+    pageUrl.searchParams.set('grade_id', activeGradeId);
+    pageUrl.searchParams.set('page', page);
+    pageUrl.searchParams.set('ajaxOnly', '1');
 
     $.ajax({
         url: pageUrl.toString(),

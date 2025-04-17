@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\CurriculumController;
+use App\Http\Controllers\Admin\DeliveryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +40,8 @@ Route::prefix('admin')->namespace('Admin')->name('admin.')->group(function () {
     Route::post('/curriculum_update/{id}',[CurriculumController::class,'exeCurriculumUpdate'])->name('exe.curriculum.update');
 
     Route::get('/curriculum_filter', [CurriculumController::class, 'filterCurriculums'])->name('curriculums.filter');
+
+    Route::get('/delivery_edit/{id}', [DeliveryController::class, 'showDeliveryEdit'])->name('show.delivery.edit');
     
 });
 

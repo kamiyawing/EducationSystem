@@ -72,7 +72,8 @@
     <div class="col-12 col-md-2 mb-4 mt-5 mx-4">
       <div class="d-flex flex-column gap-4 text-center">
         @foreach($grades as $grade)
-          <button class="btn btn-outline-info grade-button" data-grade-id="{{ $grade->id }}">
+          <button class="btn btn-outline-info grade-button {{ $selectedGrade->id === $grade->id ? 'active' : '' }}"
+            data-grade-id="{{ $grade->id }}">
             {{ $grade->name }}
           </button>
         @endforeach
@@ -118,7 +119,8 @@
             <div class="card-footer text-center">
               <button class="btn btn-light btn-sm" onclick="location.href='{{ route('admin.show.curriculum.edit', ['id' => $curriculum->id]) }}'">
                 授業内容編集</button>
-              <button class="btn btn-light btn-sm">配信日時編集</button>
+              <button class="btn btn-light btn-sm" onclick="location.href='{{ route('admin.show.delivery.edit', ['id' => $curriculum->id]) }}'">
+                配信日時編集</button>
             </div>
           </div>
         </div>
