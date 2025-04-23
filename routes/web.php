@@ -41,6 +41,14 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::group(['middleware' => 'auth:admin'],function () {
     Route::view('/home', 'admin/home');
+    Route::view('/adminTop', 'admin/top')->name('adminTop');
+    Route::get('/article_list', [App\Http\Controllers\admin\ArticleController::class, 'articlesList'])->name('article_list');
+    Route::view('/article_create', 'admin/article_create')->name('article_create');
+    Route::post('/articlesRegister', [App\Http\Controllers\admin\ArticleController::class, 'articlesRegister'])->name('articlesRegister');
+    Route::get('/articles_edit/{id}', [App\Http\Controllers\admin\ArticleController::class, 'articlesEdit'])->name('articles_edit');
+    Route::put('/articles_update/{id}', [App\Http\Controllers\admin\ArticleController::class, 'update'])->name('articles_update');
+    Route::delete('/articles_delete/{id}', [App\Http\Controllers\admin\ArticleController::class, 'articlesDelete'])->name('articles_delete');
+
 
 });
 
