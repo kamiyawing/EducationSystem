@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Article;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -17,7 +18,9 @@ class ProfileController extends Controller
     public function usersTop() {
         $userModel = new User();
         $userData = $userModel->userGetList();
-        return view('auth/usersTop', compact('userData'));
+        $articleModel = new Article();
+        $artticles = $articleModel->articleGetList();
+        return view('auth/usersTop', compact('userData','artticles'));
     }
 
     public function usersEdit() {

@@ -31,7 +31,7 @@ Route::group(['prefix' => 'admin'], function() {
     Route::post('/register', [App\Http\Controllers\admin\RegisterController::class, 'register']);
 });
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['prefix' => 'auth', 'middleware' => 'auth'], function () {
     Route::get('/usersTop', [App\Http\Controllers\Auth\ProfileController::class, 'usersTop'])->name('usersTop');
     Route::get('/profile', [App\Http\Controllers\Auth\ProfileController::class, 'usersEdit'])->name('usersEdit');
     Route::put('/usersUpdate/{id}',  [App\Http\Controllers\Auth\ProfileController::class, 'usersUpdate'])->name('usersUpdate');
@@ -39,7 +39,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('/usersPassUpdate/{id}', [App\Http\Controllers\Auth\ProfileController::class, 'usersPassUpdate'])->name('usersPassUpdate');
 });
 
-Route::group(['middleware' => 'auth:admin'],function () {
+Route::group(['prefix' => 'admin','middleware' => 'auth:admin'],function () {
     Route::view('/home', 'admin/home');
     Route::view('/adminTop', 'admin/top')->name('adminTop');
     Route::get('/article_list', [App\Http\Controllers\admin\ArticleController::class, 'articlesList'])->name('article_list');
