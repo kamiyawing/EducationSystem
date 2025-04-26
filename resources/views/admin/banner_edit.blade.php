@@ -3,10 +3,10 @@
 @section('content')
 <div class="container">
 
-{{-- 戻るボタン --}}
+    {{-- 戻るボタン --}}
     <a href="{{ route('admin.top') }}" class="btn btn-secondary">戻る</a>
 
-    
+
     <h2 class="mb-4">バナー管理</h2>
 
     {{-- アップロードフォーム --}}
@@ -41,7 +41,10 @@
         @csrf
         <div class="mb-3">
             <label for="banner" class="form-label">画像ファイルを選択</label>
-            <input class="form-control" type="file" name="banner" required>
+            <input class="form-control @error('banner') is-invalid @enderror"  type="file" name="banner" >
+            @error('banner')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
         </div>
         <button class="btn btn-primary">登録</button>
     </form>
