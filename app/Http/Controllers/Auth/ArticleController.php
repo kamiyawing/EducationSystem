@@ -13,4 +13,10 @@ class ArticleController extends Controller
         $articles = $articlesModel->articleGetList();
         return view('admin/article_list', compact('articles'));
     }
+
+    public function articlesDetail($id) {
+        $articlesModel = new Article();
+        $articles = $articlesModel->articleGetList()->find($id);
+        return view('auth/article', compact('articles'));
+    }
 }

@@ -19,8 +19,8 @@ class ProfileController extends Controller
         $userModel = new User();
         $userData = $userModel->userGetList();
         $articleModel = new Article();
-        $artticles = $articleModel->articleGetList();
-        return view('auth/usersTop', compact('userData','artticles'));
+        $articles = $articleModel->articleGetList();
+        return view('auth/usersTop', compact('userData','articles'));
     }
 
     public function usersEdit() {

@@ -18,7 +18,7 @@
             </thead>
             <tbody>
                 @foreach ($articles as $article)
-                <tr>
+                <tr data-article-id="{{ $article->id }}" style="cursor: pointer;">
                     <td>{{ $article->posted_date }}</td>
                     <td>{{ $article->title }}</td>
                 </tr>
