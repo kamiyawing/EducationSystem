@@ -53,13 +53,13 @@ class CurriculumController extends Controller
             $curriculum->description = $request->input('description');
             $curriculum->grade_id = $request->input('grade_id');
             $curriculum->alway_delivery_flg = $request->input('alway_delivery_flg') ? 1 : 0;
-            $curriculum->video_url = $request->input('video_url');
 
             $curriculum->save();
             \DB::commit();
 
         } catch(\Throwable $e) {
             \DB::rollback();
+            \Log::error($e->getMessage());
             abort(500);
         }
 
@@ -128,11 +128,48 @@ class CurriculumController extends Controller
      * @param  \App\Models\Curriculum  $curriculum
      * @return \Illuminate\Http\Response
      */
-    public function exeCurriculumUpdate(Request $request, $id)
+    public function exeCurriculumUpdate(CurriculumRequest $request, $id)
     {
+
         $curriculum = Curriculum::find($id);
-        //
+
+        if (!$curriculum) {
+            \Session::flash('err_msg', 'データが見つかりません');
+            return redirect(route('admin.show.curriculum.list'));
+        }            
+
+        \DB::beginTransaction();
+        try {
+    
+            $curriculum->fill($request->only(['title', 'video_url', 'description', 'grade_id']));
+            $curriculum->alway_delivery_flg = $request->has('alway_delivery_flg') ? 1 : 0;
+
+            if ($request->hasFile('thumbnail')) {
+                $file = $request->file('thumbnail');
+
+                if ($file->isValid()) {
+                    $originalName = $file->getClientOriginalName(); // ← 元のファイル名を取得
+                    $safeName = time() . '_' . preg_replace('/[^A-Za-z0-9\.\-_]/', '_', $originalName);
+                    $path = $file->storeAs('thumbnails', $safeName, 'public'); // ← 指定して保存
+                    $curriculum->thumbnail = $safeName; // ← DBに保存するパス
+                    }
+                }
+            
+
+            $curriculum->save();
+            \DB::commit();
+    
+        } catch(\Throwable $e) {
+            \DB::rollback();
+            \Log::error($e->getMessage());
+            abort(500);
+        }
+    
+        \Session::flash('err_msg','授業を更新しました');
+        return redirect(route('admin.show.curriculum.list'));
+    
     }
+        //
 
     /**
      * Remove the specified resource from storage.

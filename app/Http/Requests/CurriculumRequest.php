@@ -25,7 +25,7 @@ class CurriculumRequest extends FormRequest
     {
         return [
             'thumbnail' => 'max:255 | image',
-            'grade_id' => 'required | integer | max:10 | exists:grades,id',
+            'grade_id' => 'required | integer | exists:grades,id',
             'title' => 'required | max:255',
             'video_url' => 'required',
             'description' => 'required'

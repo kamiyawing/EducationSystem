@@ -23,7 +23,7 @@ class CurriculumFactory extends Factory
     {
         return [
             'title' => $this->faker->realText(30),
-            'thumbnail' => $this->faker->optional()->imageUrl(),
+            'thumbnail' => null,
             'description' => $this->faker->optional()->realText(60),
             'video_url' => $this->faker->optional()->url(),
             'alway_delivery_flg' => $this->faker->randomElement (['0', '1']),

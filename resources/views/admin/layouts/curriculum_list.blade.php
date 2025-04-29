@@ -1,3 +1,7 @@
+@php
+    use Illuminate\Support\Str;
+@endphp
+
 @if(!empty($ajaxOnly) && $ajaxOnly)
 
 <div class="text-center mb-4">
@@ -11,7 +15,7 @@
     <div class="col">
       <div class="card h-100">
         @if (!empty($curriculum->thumbnail))
-          <img src="https://picsum.photos/640/480?random=1" class="card-img-top" alt="サムネイル画像" style="height: 200px; object-fit: cover;">
+        <img src="{{ asset('storage/thumbnails/' . $curriculum->thumbnail) }}" alt="サムネイル画像" class="card-img-top" style="height: 200px; object-fit: cover;">
         @else
           <div class="card-img-top d-flex align-items-center justify-content-center bg-secondary text-white" style="height: 200px;">
             No Image
@@ -93,12 +97,13 @@
         <div class="col">
           <div class="card h-100">
             @if (!empty($curriculum->thumbnail))
-              <img src="https://picsum.photos/640/480?random=1" class="card-img-top" alt="サムネイル画像" style="height: 200px; object-fit: cover;">
+              <img src="{{ asset('storage/thumbnails/' . $curriculum->thumbnail) }}" alt="サムネイル画像" class="card-img-top" style="height: 200px; object-fit: cover;">
             @else
               <div class="card-img-top d-flex align-items-center justify-content-center bg-secondary text-white" style="height: 200px;">
-                No Image
+              No Image
               </div>
             @endif
+
             <div class="card-body">
               <h4 class="card-title fw-light">{{ $curriculum->title }}</h4>
               <h6 class="card-text">
