@@ -1,4 +1,6 @@
+@php($noHeader = true)
 @extends('layouts.app')
+
 
 @section('content')
 <div class="container">
@@ -11,7 +13,7 @@
 
             <div class="card p-4 shadow-sm">  
                 <div class="card-body">
-                    <form method="POST" action="{{ route('admin.register.form') }}">
+                    <form method="POST" action="{{ route('admin.register') }}">
                         @csrf
 
                         <div class="mb-3">

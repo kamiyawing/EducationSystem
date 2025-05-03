@@ -15,6 +15,6 @@ public function index(Request $request)
                         })
                         ->get();
 
-    return view('curriculum_list', compact('curriculums', 'grade', 'month'));
+    return view('user/curriculum_list', compact('curriculums', 'grade', 'month'));
 }
 }

@@ -7,7 +7,8 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth; 
-use Illuminate\Support\Facades\Validator;                       
+use Illuminate\Support\Facades\Validator;      
+use App\Http\Requests\LoginRequest;                
 
 class LoginController extends Controller
 {
@@ -32,14 +33,8 @@ class LoginController extends Controller
         return Auth::guard('admin');                        
     }                  
     
-    public function login(Request $request)
+    public function login(LoginRequest $request)
 {
-    $request->validate([
-        'email' => ['required', 'email'],
-        'password' => ['required', 'string', 'min:8'],
-    ],trans('validation.login'));
-
-
     $credentials = $request->only('email', 'password');
 
     if (Auth::guard('admin')->attempt($credentials)) {

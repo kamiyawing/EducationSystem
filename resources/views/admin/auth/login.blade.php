@@ -1,4 +1,6 @@
-@extends('layouts.app')
+@php($noHeader = true)
+@extends('admin.layouts.app')
+
 
 @section('content')
 <div class="container">
@@ -48,4 +50,4 @@
         </div>
     </div>
 </div>
-@endsection
+@endsection 

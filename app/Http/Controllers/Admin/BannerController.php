@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Banner;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\BannerRequest;
 
 class BannerController extends Controller
 {
@@ -16,11 +17,10 @@ class BannerController extends Controller
         return view('admin.banner_edit', ['files' => $files]);
     }
 
-    public function upload(Request $request)
+    public function upload(BannerRequest $request)
     {
-        $request->validate([
-            'banner' => ['required', 'image', 'max:2048'],
-        ], trans('validation.banner'));
+        
+        $credentials = $request->only('banner');
 
         DB::beginTransaction();
 

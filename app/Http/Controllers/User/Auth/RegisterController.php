@@ -29,10 +29,11 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255', 'unique:admins,name'],
-            'kana' => ['required', 'regex:/^[ァ-ヶー]+$/u'],
+            'name_kana' => ['required', 'string', 'regex:/^[ァ-ヶー]+$/u'],
+            'grade_id' => ['required', 'integer'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:admins,email'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ], trans('validation.register'));
+        ], trans('validation.user.register'));
     }
     
 
@@ -42,7 +43,8 @@ class RegisterController extends Controller
 
         $user = User::create([
             'name' => $request->name,
-            'kana' => $request->kana,
+            'name_kana' => $request->name_kana,
+            'grade_id' => $request->grade_id,
             'email' => $request->email,
             'password' => bcrypt($request->password),
         ]);

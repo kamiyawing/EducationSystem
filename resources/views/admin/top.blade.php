@@ -2,18 +2,6 @@
 
 @section('content')
 <div class="container">
-    <!-- ヘッダー -->
-    <div class="d-flex justify-content-between align-items-center p-3" style="background-color: #9EE9F7;">
-        <div>
-         <a href="{{ route('admin.culliculum') }}" class="btn btn-secondary">授業管理</a>
-         <a href="{{ route('admin.article') }}" class="btn btn-secondary">お知らせ管理</a>
-         <a href="{{ route('admin.banner') }}" class="btn btn-secondary">バナー管理</a>
-        </div>
-        <form method="POST" action="{{ route('admin.logout') }}" class="d-inline">
-         @csrf
-          <button type="submit" class="btn btn-link text-white">ログアウト</button>
-        </form>
-    </div>
 
     <!-- ユーザー情報 -->
     <div class="mt-4">

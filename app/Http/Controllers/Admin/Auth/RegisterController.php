@@ -7,7 +7,8 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;  
-use Illuminate\Http\Request;          
+use Illuminate\Http\Request;   
+use App\Http\Requests\RegisterRequest;        
 
 class RegisterController extends Controller
 {
@@ -24,21 +25,11 @@ class RegisterController extends Controller
     {                                           
         return Auth::guard('admin');           
     }                                           
-
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255', 'unique:admins,name'],
-            'kana' => ['required', 'regex:/^[ァ-ヶー]+$/u'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:admins,email'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ], trans('validation.register'));
-    }
     
 
-    public function register(Request $request)
-    {
-        $this->validator($request->all())->validate();  
+    public function register(RegisterRequest $request)
+    { 
+        $credentials = $request->only('name','kana','email', 'password');
 
         $admin = Admin::create([
             'name' => $request->name,

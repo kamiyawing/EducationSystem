@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('no_header') @endsection
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -16,7 +18,7 @@
 
                         <div class="mb-3">
                             <label for="name" class="form-label">ユーザーネーム</label>
-                            <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" 
+                            <input id="namE" type="text" class="form-control @error('name') is-invalid @enderror" 
                                    name="name" value="{{ old('name') }}">
                             @error('name')
                                 <span class="invalid-feedback"><strong>{{ $message }}</strong></span>
@@ -24,10 +26,19 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="kana" class="form-label">カナ</label>
-                            <input id="kana" type="text" class="form-control @error('kana') is-invalid @enderror" 
-                                   name="kana" value="{{ old('kana') }}">
-                            @error('kana')
+                            <label for="name_kana" class="form-label">カナ</label>
+                            <input id="name_kana" type="text" class="form-control @error('name_kana') is-invalid @enderror" 
+                                   name="name_kana" value="{{ old('name_kana') }}">
+                            @error('name_kana')
+                                <span class="invalid-feedback"><strong>{{ $message }}</strong></span>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="grade_id" class="form-label">学年</label>
+                            <input id="grade_id" type="text" class="form-control @error('grade_id') is-invalid @enderror" 
+                                   name="grade_id" value="{{ old('grade_id') }}">
+                            @error('grade_id')
                                 <span class="invalid-feedback"><strong>{{ $message }}</strong></span>
                             @enderror
                         </div>
