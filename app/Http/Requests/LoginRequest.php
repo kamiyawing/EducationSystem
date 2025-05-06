@@ -3,7 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Http\Controllers\Admin\Auth\LoginController;
+use App\Http\Controllers\Admin\Auth\LoginController as AdminLoginController;
+use App\Http\Controllers\User\Auth\LoginController as UserLoginController;
 use Illuminate\Support\Facades\Lang;
 
 class LoginRequest extends FormRequest

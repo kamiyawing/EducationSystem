@@ -1,6 +1,5 @@
-@extends('layouts.app')
-
-@section('no_header') @endsection
+@php($noHeader = true)
+@extends('user.layouts.app')
 
 @section('content')
 <div class="container">
@@ -17,7 +16,7 @@
             <!-- カードデザイン -->
             <div class="card p-4 shadow-sm">  
                 <div class="card-body">
-                    <form method="POST" action="{{ route('user.login.form') }}">
+                    <form method="POST" action="{{ route('user.login') }}">
                         @csrf
 
                         <!-- メールアドレス -->

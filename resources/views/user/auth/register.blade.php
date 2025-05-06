@@ -1,6 +1,5 @@
-@extends('layouts.app')
-
-@section('no_header') @endsection
+@php($noHeader = true)
+@extends('user.layouts.app')
 
 @section('content')
 <div class="container">

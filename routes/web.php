@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\Auth\ConfirmPasswordController;
 use App\Http\Controllers\User\Auth\RegisterController as UserRegisterController;
 use App\Http\Controllers\User\Auth\LoginController as UserLoginController;
 use App\Http\Controllers\User\TopController as UserTopController;
+use App\Http\Controllers\User\CurriculumController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +27,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Route::get('/home', function () {
+    return redirect('/user/top'); 
+});
 
 
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -41,9 +44,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('auth:admin')->group(function () {
         Route::get('/top', [AdminTopController::class, 'index'])->name('top'); 
 
-        Route::get('/culliculum', function () {
-            return view('admin.culliculum_list');
-        })->name('culliculum');
+        Route::get('/curriculum', function () {
+            return view('admin.curriculum_list');
+        })->name('curriculum');
     
         Route::get('/article', function () {
             return view('admin.article_list');
@@ -78,17 +81,18 @@ Route::prefix('user')->name('user.')->group(function () {
     Route::middleware('auth:user')->group(function () {
         Route::get('/top', [UserTopController::class, 'index'])->name('top'); 
 
-        Route::get('/curriculum', function () {
-            return view('user.curriculum_list');
-        })->name('curriculum');
-    
+        Route::get('/curriculum', [CurriculumController::class, 'index'])->name('curriculum_list');
+        
+        
         Route::get('/confirm', [ConfirmPasswordController::class, 'showConfirmForm'])->name('password.confirm');
     });
+
+    
 
     Route::post('/logout', function () {
         Auth::guard('user')->logout();
         request()->session()->invalidate(); // セッション無効化
         request()->session()->regenerateToken(); // CSRFトークン再生成
-        return redirect()->route('user.login');
+        return redirect()->route('user.login.form');
     })->name('logout');
 });

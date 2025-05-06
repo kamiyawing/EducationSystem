@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers\User;
 
-class CurriculumContoroller extends Controller
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Models\Curriculum;
+
+
+class CurriculumController extends Controller
 {
 
 public function index(Request $request)

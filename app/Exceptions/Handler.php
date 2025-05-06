@@ -52,9 +52,16 @@ class Handler extends ExceptionHandler
     if($request->expectsJson()) {
         return respomse()->json(['message' => $exception->getMessage()],401);
     }
-    if($request->is('admin') || $request->is('admin/*')){
-        return redirect()->guest('/admin/login');
-    }
-    return redirect()->guest($exception->redirectTo ?? route('login'));
+    
+    return redirect()->guest($exception->redirectTo ?? route($this->getLoginRouteName($request)));
     }   
+
+    protected function getLoginRouteName($request)
+    {
+        if ($request->is('admin') || $request->is('admin/*')){
+            return 'admin.login.form';
+        }
+
+        return 'user.login.form';
+    }
 }

@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
 {
-    // use AuthenticatesUsers;                              
+    use AuthenticatesUsers;                              
     use AuthenticatesUsers {                                
         logout as performLogout;                            
     }                                                       

@@ -12,7 +12,7 @@ class TopController extends Controller
     {
          
         if (!Auth::guard('user')->check()) {
-            return redirect()->route('user.login');
+            return redirect()->route('user.login.form');
         }
 
         return view('user.top');

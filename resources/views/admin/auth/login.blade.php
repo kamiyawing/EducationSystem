@@ -17,7 +17,7 @@
             <!-- カードデザイン -->
             <div class="card p-4 shadow-sm">  
                 <div class="card-body">
-                    <form method="POST" action="{{ route('admin.login.form') }}">
+                    <form method="POST" action="{{ route('admin.login') }}">
                         @csrf
 
                         <!-- メールアドレス -->
