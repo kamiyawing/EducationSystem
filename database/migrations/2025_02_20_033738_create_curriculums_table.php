@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('thumbnail')->nullable();
             $table->string('description')->nullable();
             $table->text('video_url')->nullable();
-            $table->integer('alway_delivery_flg')->notnull();
+            $table->boolean('alway_delivery_flg')->default(0);
             $table->integer('grade_id')->notnull();
             $table->timestamps();
         });

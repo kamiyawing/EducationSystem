@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Curriculum extends Model
 {
     protected $table = 'curriculums';
-    
+
     protected $fillable = [
         'title',
         'thumbnail',
@@ -17,4 +17,8 @@ class Curriculum extends Model
         'alway_delivery_flg',
         'grade_id',
     ];
+    public function deliveryTimes()
+    {
+        return $this->hasMany(DeliveryTime::class, 'curriculums_id');
+    }
 }

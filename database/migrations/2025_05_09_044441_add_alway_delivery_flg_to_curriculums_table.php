@@ -13,9 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('banners', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::table('curriculums', function (Blueprint $table) {
+            $table->boolean('always_delivery_flg')->default(0)->after('grade_id');
         });
     }
 
@@ -26,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('banners');
+        Schema::table('curriculums', function (Blueprint $table) {
+            $table->dropColumn('always_delivery_flg');
+        });
     }
 };
