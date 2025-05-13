@@ -2,45 +2,6 @@
 
 @section('content')
 
-@php
-     $grades = [
-        1 => '小学生1年生',
-        2 => '小学生2年生',
-        3 => '小学生3年生',
-        4 => '小学生4年生',
-        5 => '小学生5年生',
-        6 => '小学生6年生',
-        7 => '中学生1年生',
-        8 => '中学生2年生',
-        9 => '中学生3年生',
-        10 => '高校生1年生',
-        11 => '高校生2年生',
-        12 => '高校生3年生',
-        ];
-
-     $gradeColors = [
-        1 => 'info',
-        2 => 'info',
-        3 => 'info',
-        4 => 'info',
-        5 => 'info',
-        6 => 'info',
-        7 => 'primary',
-        8 => 'primary',
-        9 => 'primary',
-        10 => 'success',
-        11 => 'success',
-        12 => 'success',
-        ];
-
-        $currentMonth = request('month') ?? now()->month;
-        $currentYear = request('year') ?? now()->year;
-
-        $date = \Carbon\Carbon::createFromDate($currentYear, $currentMonth, 1);
-
-        $prev = $date->copy()->subMonth();
-        $next = $date->copy()->addMonth();
-        @endphp
 
 {{-- 戻るボタン --}}
     <a href="{{ route('user.top') }}" class="btn btn-secondary">戻る</a>
@@ -98,7 +59,7 @@
         <div class="row">
             @foreach($curriculums as $curriculum)
                 {{-- 常時フラグと学年一致で表示させるとこ --}}
-                @if($curriculum->always_delivery_flg == 1 || $curriculum->grade_id == request('grade_id'))
+                @if($curriculum->always_delivery_flg === true || $curriculum->grade_id == request('grade_id'))
                 <div class="col-md-4 mb-4">
                     <div class="card h-100">
                         {{-- サムネイル --}}
@@ -116,7 +77,7 @@
                             {{--日時表示 --}}
                             @foreach($curriculum->deliveryTimes as $time)
                                <p class="card-text">
-                                   配信期間：{{ c::parse($time->delivery_from)->format('Y年m月d日 H:i') }}
+                                   配信期間：{{ \Carbon\Carbon::parse($time->delivery_from)->format('Y年m月d日 H:i') }}
                                    ~ {{ \Carbon\Carbon::parse($time->delivery_to)->format('Y年m月d日 H:i') }}
                                </p>
                             @endforeach
