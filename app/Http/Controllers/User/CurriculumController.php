@@ -19,7 +19,7 @@ public function index(Request $request)
     $year = $request->input('year', now()->year);
     $month = $request->input('month', now()->month); // 初期値は今月
     $date = Carbon::createFromDate($year, $month, 1);
-    $prev = $date->copy()->addMonth();
+    $prev = $date->copy()->subMonth();
     $next = $date->copy()->addMonth();
 
     $curriculums = Curriculum::with('deliveryTimes')
