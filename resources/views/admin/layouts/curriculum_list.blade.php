@@ -26,22 +26,21 @@
           <h6 class="card-text">
             @if($curriculum->alway_delivery_flg == 1)
               常時公開
+            @elseif (!empty($curriculum->delivery_times) && $curriculum->delivery_times->isNotEmpty())
+              @foreach($curriculum->delivery_times as $time)
+                {{ \Carbon\Carbon::parse($time->delivery_from)->format('m月d日 H:i') }}〜
+                {{ \Carbon\Carbon::parse($time->delivery_to)->format('m月d日 H:i') }}<br/>
+              @endforeach
             @else
-              @if($curriculum->delivery_times->isNotEmpty())
-                @foreach($curriculum->delivery_times as $time)
-                  {{ \Carbon\Carbon::parse($time->delivery_from)->format('m月d日 H:i') }}〜
-                  {{ \Carbon\Carbon::parse($time->delivery_to)->format('m月d日 H:i') }}<br/>
-                @endforeach
-              @else
-                常時公開
-              @endif
+              常時公開
             @endif
           </h6>
         </div>
         <div class="card-footer text-center">
           <button class="btn btn-light btn-sm" onclick="location.href='{{ route('admin.show.curriculum.edit', ['id' => $curriculum->id]) }}'">
             授業内容編集</button>
-          <button class="btn btn-light btn-sm">配信日時編集</button>
+          <button class="btn btn-light btn-sm" onclick="location.href='{{ route('admin.show.delivery.edit', ['id' => $curriculum->id]) }}'">
+            配信日時編集</button>
         </div>
       </div>
     </div>
@@ -109,15 +108,13 @@
               <h6 class="card-text">
                 @if($curriculum->alway_delivery_flg == 1)
                   常時公開
+                @elseif (!empty($curriculum->delivery_times) && $curriculum->delivery_times->isNotEmpty())
+                  @foreach($curriculum->delivery_times as $time)
+                    {{ \Carbon\Carbon::parse($time->delivery_from)->format('m月d日 H:i') }}〜
+                    {{ \Carbon\Carbon::parse($time->delivery_to)->format('m月d日 H:i') }}<br/>
+                  @endforeach
                 @else
-                  @if($curriculum->delivery_times->isNotEmpty())
-                    @foreach($curriculum->delivery_times as $time)
-                      {{ \Carbon\Carbon::parse($time->delivery_from)->format('m月d日 H:i') }}〜
-                      {{ \Carbon\Carbon::parse($time->delivery_to)->format('m月d日 H:i') }}<br/>
-                    @endforeach
-                  @else
-                    常時公開
-                  @endif
+                  常時公開
                 @endif
               </h6>
             </div>

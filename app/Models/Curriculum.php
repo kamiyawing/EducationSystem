@@ -9,7 +9,7 @@ class Curriculum extends Model
 {
     use HasFactory;
     protected $table = 'curriculums';
-    protected $fillable = ['title', 'video_url', 'description', 'grade_id', 'alway_delivery_flg'];
+    protected $fillable = ['title', 'video_url', 'description', 'grade_id', 'alway_delivery_flg' , 'thumbnail'];
 
     public function grade()
     {

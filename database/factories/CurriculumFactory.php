@@ -26,7 +26,7 @@ class CurriculumFactory extends Factory
             'thumbnail' => null,
             'description' => $this->faker->optional()->realText(60),
             'video_url' => $this->faker->optional()->url(),
-            'alway_delivery_flg' => $this->faker->randomElement (['0', '1']),
+            'alway_delivery_flg' => $this->faker->boolean,
             'grade_id' => Grade::inRandomOrder()->first()->id,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),

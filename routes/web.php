@@ -42,6 +42,10 @@ Route::prefix('admin')->namespace('Admin')->name('admin.')->group(function () {
     Route::get('/curriculum_filter', [CurriculumController::class, 'filterCurriculums'])->name('curriculums.filter');
 
     Route::get('/delivery_edit/{id}', [DeliveryController::class, 'showDeliveryEdit'])->name('show.delivery.edit');
+
+    Route::post('/delivery_store/{id}',[DeliveryController::class,'exeDeliveryStore'])->name('exe.delivery.store');
+
+    Route::delete('/delivery_destroy/{id}',[DeliveryController::class,'exeDeliveryDestroy'])->name('exe.delivery.destroy');
     
 });
 

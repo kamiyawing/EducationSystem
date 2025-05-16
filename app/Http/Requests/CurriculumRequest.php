@@ -23,14 +23,26 @@ class CurriculumRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'thumbnail' => 'max:255 | image',
-            'grade_id' => 'required | integer | exists:grades,id',
-            'title' => 'required | max:255',
-            'video_url' => 'required',
-            'description' => 'required'
 
-            //
+        $rules = [
+
+            'title' => ['required'],
+            'grade_id' => ['required'],
+            'video_url' => ['required'],
+            'description' => ['required'],
+
         ];
+
+        if (!$this->has('alway_delivery_flg')) {
+            $rules['delivery_times'] = ['required', 'array'];
+            $rules['delivery_times.*.from_date'] = ['required', 'date'];
+            $rules['delivery_times.*.from_time'] = ['required'];
+            $rules['delivery_times.*.to_date'] = ['required', 'date'];
+            $rules['delivery_times.*.to_time'] = ['required'];
+        }
+
+    return $rules;
+
     }
-}
+
+ }

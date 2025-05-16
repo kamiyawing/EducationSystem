@@ -130,7 +130,6 @@ class CurriculumController extends Controller
      */
     public function exeCurriculumUpdate(CurriculumRequest $request, $id)
     {
-
         $curriculum = Curriculum::find($id);
 
         if (!$curriculum) {
@@ -142,7 +141,8 @@ class CurriculumController extends Controller
         try {
     
             $curriculum->fill($request->only(['title', 'video_url', 'description', 'grade_id']));
-            $curriculum->alway_delivery_flg = $request->has('alway_delivery_flg') ? 1 : 0;
+            $curriculum->alway_delivery_flg = $request->input('alway_delivery_flg') == '1' ? 1 : 0;
+
 
             if ($request->hasFile('thumbnail')) {
                 $file = $request->file('thumbnail');
@@ -154,19 +154,18 @@ class CurriculumController extends Controller
                     $curriculum->thumbnail = $safeName; // ← DBに保存するパス
                     }
                 }
-            
+    
 
             $curriculum->save();
             \DB::commit();
     
         } catch(\Throwable $e) {
             \DB::rollback();
-            \Log::error($e->getMessage());
             abort(500);
         }
     
         \Session::flash('err_msg','授業を更新しました');
-        return redirect(route('admin.show.curriculum.list'));
+        return redirect(route('admin.show.curriculum.list', ['grade_id' => $curriculum->grade_id]));
     
     }
         //

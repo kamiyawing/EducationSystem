@@ -130,7 +130,7 @@ return [
     'required_if' => 'The :attribute field is required when :other is :value.',
     'required_if_accepted' => 'The :attribute field is required when :other is accepted.',
     'required_unless' => 'The :attribute field is required unless :other is in :values.',
-    'required_with' => 'The :attribute field is required when :values is present.',
+    'required_with' => ':attribute は :values が入力されている場合は必須です',
     'required_with_all' => 'The :attribute field is required when :values are present.',
     'required_without' => 'The :attribute field is required when :values is not present.',
     'required_without_all' => 'The :attribute field is required when none of :values are present.',
@@ -182,7 +182,13 @@ return [
     'attributes' => [
         'title' => '授業名',
         'video_url' => '動画URL',
-        'description' => '授業概要'
+        'description' => '授業概要',
+        'delivery_times' => '配信日時',
+        'delivery_times.*.from_date' => '配信開始日',
+        'delivery_times.*.from_time' => '配信開始時間',
+        'delivery_times.*.to_date' => '配信終了日',
+        'delivery_times.*.to_time' => '配信終了時間',
+        
     ],
 
 ];
