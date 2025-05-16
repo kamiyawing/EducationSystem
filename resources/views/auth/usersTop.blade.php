@@ -5,6 +5,7 @@
         <h1>ユーザートップ画面</h1>
         <div>
             <button onclick="location.href='{{ route('usersEdit') }}'">プロフィール設定</button>
+            <button onclick="location.href='{{ route('userProgress') }}'">授業進捗</button>
         </div>
         @if ($articles->isEmpty())
         <p>現在お知らせはありません。</p>

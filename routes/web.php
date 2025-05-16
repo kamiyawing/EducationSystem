@@ -17,10 +17,25 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+//Auth::routes();
 
-Route::group(['prefix' => 'user'], function() {
+Route::group(['prefix' => 'User'], function() {
+    Route::get('/login', [App\Http\Controllers\User\LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [App\Http\Controllers\User\LoginController::class, 'login']);
+    Route::post('/logout', [App\Http\Controllers\User\LoginController::class, 'logout'])->name('logout');
+    Route::get('/register', [App\Http\Controllers\User\RegisterController::class, 'showRegistrationForm'])->name('register');
+    Route::post('/register', [App\Http\Controllers\User\RegisterController::class, 'register']);
 
+    //今回は不要なパスワードリセット機能やメール認証を使用する場合の追加ルート
+    //パスワードリセット
+    //Route::get('password/reset', [App\Http\Controllers\User\ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+    //Route::post('password/email', [App\Http\Controllers\User\ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+    //Route::get('password/reset/{token}', [App\Http\Controllers\User\ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+    //Route::post('password/reset', [App\Http\Controllers\User\ResetPasswordController::class, 'reset'])->name('password.update');
+    //メール認証
+    //Route::get('email/verify', [App\Http\Controllers\User\VerificationController::class, 'notice'])->name('verification.notice');
+    //Route::get('email/verify/{id}/{hash}', [App\Http\Controllers\User\VerificationController::class, 'verify'])->name('verification.verify')->middleware(['signed', 'throttle:6,1']);
+    //Route::post('email/resend', [App\Http\Controllers\User\VerificationController::class, 'resend'])->name('verification.resend')->middleware('throttle:6,1');
 });
 
 Route::group(['prefix' => 'admin'], function() {
@@ -31,13 +46,14 @@ Route::group(['prefix' => 'admin'], function() {
     Route::post('/register', [App\Http\Controllers\admin\RegisterController::class, 'register']);
 });
 
-Route::group(['prefix' => 'auth', 'middleware' => 'auth'], function () {
-    Route::get('/usersTop', [App\Http\Controllers\Auth\ProfileController::class, 'usersTop'])->name('usersTop');
-    Route::get('/profile', [App\Http\Controllers\Auth\ProfileController::class, 'usersEdit'])->name('usersEdit');
-    Route::put('/usersUpdate/{id}',  [App\Http\Controllers\Auth\ProfileController::class, 'usersUpdate'])->name('usersUpdate');
-    Route::get('/usersPassEdit', [App\Http\Controllers\Auth\ProfileController::class, 'usersPassEdit'])->name('usersPassEdit');
-    Route::put('/usersPassUpdate/{id}', [App\Http\Controllers\Auth\ProfileController::class, 'usersPassUpdate'])->name('usersPassUpdate');
-    Route::get('/articlesDetail/{id}', [App\Http\Controllers\Auth\ArticleController::class, 'articlesDetail'])->name('articlesDetail');
+Route::group(['prefix' => 'User', 'middleware' => 'auth'], function () {
+    Route::get('/usersTop', [App\Http\Controllers\User\ProfileController::class, 'usersTop'])->name('usersTop');
+    Route::get('/profile', [App\Http\Controllers\User\ProfileController::class, 'usersEdit'])->name('usersEdit');
+    Route::put('/usersUpdate/{id}',  [App\Http\Controllers\User\ProfileController::class, 'usersUpdate'])->name('usersUpdate');
+    Route::get('/usersPassEdit', [App\Http\Controllers\User\ProfileController::class, 'usersPassEdit'])->name('usersPassEdit');
+    Route::put('/usersPassUpdate/{id}', [App\Http\Controllers\User\ProfileController::class, 'usersPassUpdate'])->name('usersPassUpdate');
+    Route::get('/articlesDetail/{id}', [App\Http\Controllers\User\ArticleController::class, 'articlesDetail'])->name('articlesDetail');
+    Route::get('/userProgress', [App\Http\Controllers\User\ProgressController::class, 'userProgress'])->name('userProgress');
 });
 
 Route::group(['prefix' => 'admin','middleware' => 'auth:admin'],function () {

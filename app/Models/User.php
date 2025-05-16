@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class User extends Authenticatable
 {
@@ -66,5 +67,17 @@ class User extends Authenticatable
         User::where('id', $id)->update([
             'password' => Hash::make($Request->input('new_password')),
         ]);
+    }
+
+    public function curriculum_progress()
+    {
+        return $this->belongsToMany(Curriculum::class, 'curriculum_progress', 'users_id', 'curriculums_id')
+                    ->withPivot('clear_flg')
+                    ->as('progress');
+    }
+
+    public function grade():BelongsTo 
+    {
+        return $this->belongsTo(Grade::class);
     }
 }
