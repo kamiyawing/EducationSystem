@@ -22,26 +22,28 @@
                 </tr>
             </table>
         </div>
-        <div style="display: flex; flex-wrap: wrap;">
-            @foreach ($gradesWithCurriculums->chunk(3) as $gradeGroup)
-                <div style="width: calc(100% / 3); padding: 15px; box-sizing: border-box;">
-                    @foreach ($gradeGroup as $grade)
-                        <div>
-                            <h5>{{ $grade->name }}</h5>
-                            @foreach ($grade->curriculums as $curriculum)
-                                <div style="display: flex; align-items: center;">
-                                    <div style="width: 80px;">
-                                        @if (isset($userProgressStatus[$curriculum->id]) && $userProgressStatus[$curriculum->id] == 1)
-                                            <span style="color: green;">受講済</span>
-                                        @else
-                                            <span style="visibility: hidden;">受講済</span>
-                                        @endif
-                                    </div>
-                                    <p style="margin-bottom: 0;">{{ $curriculum->title }}</p>
+        <div class="row">
+            @foreach ($gradesWithCurriculums as $grade)
+                <div class="col-md-4 mb-4">
+                    <div>
+                        <h5>{{ $grade->name }}</h5>
+                        @foreach ($grade->curriculums as $curriculum)
+                            <div style="display: flex; align-items: center;">
+                                <div style="width: 80px;">
+                                    @if (isset($userProgressStatus[$curriculum->id]) && $userProgressStatus[$curriculum->id] == 1)
+                                        <span style="color: green;">受講済</span>
+                                    @else
+                                        <span style="visibility: hidden;">受講済</span>
+                                    @endif
                                 </div>
-                            @endforeach
-                        </div>
-                    @endforeach
+                                @if ($userData->grade_id >= $grade->id)
+                                    <p class="curriculum-link" style="margin-bottom: 0; cursor: pointer;" data-curriculum-id="{{ $curriculum->id }}">{{ $curriculum->title }}</p>
+                                @else
+                                    <p style="margin-bottom: 0;" class="opacity-25">{{ $curriculum->title }}</p>
+                                @endif
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
             @endforeach
         </div>

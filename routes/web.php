@@ -54,6 +54,7 @@ Route::group(['prefix' => 'User', 'middleware' => 'auth'], function () {
     Route::put('/usersPassUpdate/{id}', [App\Http\Controllers\User\ProfileController::class, 'usersPassUpdate'])->name('usersPassUpdate');
     Route::get('/articlesDetail/{id}', [App\Http\Controllers\User\ArticleController::class, 'articlesDetail'])->name('articlesDetail');
     Route::get('/userProgress', [App\Http\Controllers\User\ProgressController::class, 'userProgress'])->name('userProgress');
+    Route::get('/delivery/{id}', [App\Http\Controllers\User\ProgressController::class, 'deliveryVideo'])->name('delivery');
 });
 
 Route::group(['prefix' => 'admin','middleware' => 'auth:admin'],function () {
