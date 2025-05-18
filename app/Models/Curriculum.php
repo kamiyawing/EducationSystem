@@ -21,4 +21,36 @@ class Curriculum extends Model
         return $this->hasMany(DeliveryTime::class, 'curriculums_id');
     }
 
+    public static function createFromRequest($request)
+    {
+    $curriculum = new self();
+    $curriculum->title = $request->input('title');
+    $curriculum->video_url = $request->input('video_url');
+    $curriculum->description = $request->input('description');
+    $curriculum->grade_id = $request->input('grade_id');
+    $curriculum->alway_delivery_flg = $request->input('alway_delivery_flg') ? 1 : 0;
+    $curriculum->save();
+
+    return $curriculum;
+    }
+
+    public function updateFromRequest($request)
+    {
+    $this->fill($request->only(['title', 'video_url', 'description', 'grade_id']));
+    $this->alway_delivery_flg = $request->input('alway_delivery_flg') == '1' ? 1 : 0;
+
+    if ($request->hasFile('thumbnail')) {
+        $file = $request->file('thumbnail');
+
+        if ($file->isValid()) {
+            $originalName = $file->getClientOriginalName();
+            $safeName = time() . '_' . preg_replace('/[^A-Za-z0-9\.\-_]/', '_', $originalName);
+            $file->storeAs('thumbnails', $safeName, 'public');
+            $this->thumbnail = $safeName;
+        }
+    }
+
+    $this->save();
+    }
+
 }

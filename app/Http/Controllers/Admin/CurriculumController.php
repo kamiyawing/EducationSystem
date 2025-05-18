@@ -46,21 +46,11 @@ class CurriculumController extends Controller
 
         \DB::beginTransaction();
         try {
-            $curriculum = new Curriculum();
-
-            $curriculum->title = $request->input('title');
-            $curriculum->video_url = $request->input('video_url');
-            $curriculum->description = $request->input('description');
-            $curriculum->grade_id = $request->input('grade_id');
-            $curriculum->alway_delivery_flg = $request->input('alway_delivery_flg') ? 1 : 0;
-
-            $curriculum->save();
+            $curriculum = Curriculum::createFromRequest($request);
             \DB::commit();
-
-        } catch(\Throwable $e) {
-            \DB::rollback();
-            \Log::error($e->getMessage());
-            abort(500);
+        } catch (\Exception $e) {
+            \DB::rollBack();
+            throw $e;
         }
 
         \Session::flash('err_msg','授業を登録しました');
@@ -138,35 +128,16 @@ class CurriculumController extends Controller
         }            
 
         \DB::beginTransaction();
-        try {
-    
-            $curriculum->fill($request->only(['title', 'video_url', 'description', 'grade_id']));
-            $curriculum->alway_delivery_flg = $request->input('alway_delivery_flg') == '1' ? 1 : 0;
-
-
-            if ($request->hasFile('thumbnail')) {
-                $file = $request->file('thumbnail');
-
-                if ($file->isValid()) {
-                    $originalName = $file->getClientOriginalName(); // ← 元のファイル名を取得
-                    $safeName = time() . '_' . preg_replace('/[^A-Za-z0-9\.\-_]/', '_', $originalName);
-                    $path = $file->storeAs('thumbnails', $safeName, 'public'); // ← 指定して保存
-                    $curriculum->thumbnail = $safeName; // ← DBに保存するパス
-                    }
-                }
-    
-
-            $curriculum->save();
+    try {
+            $curriculum->updateFromRequest($request);
             \DB::commit();
-    
         } catch(\Throwable $e) {
             \DB::rollback();
             abort(500);
         }
-    
-        \Session::flash('err_msg','授業を更新しました');
-        return redirect(route('admin.show.curriculum.list', ['grade_id' => $curriculum->grade_id]));
-    
+
+    \Session::flash('success_msg', '授業を更新しました');
+    return redirect(route('admin.show.curriculum.list', ['grade_id' => $curriculum->grade_id]));
     }
         //
 

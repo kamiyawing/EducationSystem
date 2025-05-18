@@ -8,76 +8,46 @@ use App\Models\Grade;
 use App\Models\DeliveryTime;
 use App\Http\Requests\DeliveryRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
 
 class DeliveryController extends Controller
 
 {
-    public function exeDeliveryStore(DeliveryRequest $request , $id)
+    public function exeDeliveryStore(DeliveryRequest $request, $id)
     {
-
-        \DB::beginTransaction();
+        DB::beginTransaction();
         try {
-            $curriculum_id = $id;
             $times = $request->input('delivery_times');
 
             if (!$times || !is_array($times)) {
                 return back()->with('error', '配信日時を1件以上入力してください');
             }
 
-            $submittedIds = [];
+            DeliveryTime::saveTimesForCurriculum($id, $times); // ✅ モデルへ集約
 
-            foreach ($times as $time) {
-                $data = [
-                    'curriculums_id' => $curriculum_id,
-                    'delivery_from' => Carbon::parse($time['from_date'] . ' ' . $time['from_time']),
-                    'delivery_to' => Carbon::parse($time['to_date'] . ' ' . $time['to_time']),
-                ];
-    
-                if (!empty($time['id'])) {
-                    $existing = DeliveryTime::find($time['id']);
-                    if ($existing) {
-                        $existing->update($data);
-                        $submittedIds[] = $existing->id;
-                    }
-                } else {
-                    $new = DeliveryTime::create($data);
-                    $submittedIds[] = $new->id;
-                }
-            }
-    
-            // 登録されなかったIDを削除（画面から削除された行）
-            DeliveryTime::where('curriculums_id', $curriculum_id)
-                ->whereNotIn('id', $submittedIds)
-                ->delete();
-
-            \DB::commit();
-
-        } catch(\Throwable $e) {
-            \DB::rollback();
-            // dd($e->getMessage());
-            \Log::error($e->getMessage());
+            DB::commit();
+        } catch (\Throwable $e) {
+            DB::rollback();
+            Log::error($e->getMessage());
             abort(500);
         }
 
-        \Session::flash('err_msg','配信日時を登録しました');
+        Session::flash('success_msg', '配信日時を登録しました');
         return redirect(route('admin.show.curriculum.list'));
-
     }
-    //
+
     public function showDeliveryEdit($id)
     {
-
         $curriculum = Curriculum::with('delivery_times')->findOrFail($id);
-    
 
-        // delivery_timesごとに日付・時間を分解して追加
         foreach ($curriculum->delivery_times ?? collect() as $time) {
-            $time->from_date = \Carbon\Carbon::parse($time->delivery_from)->format('Y-m-d');
-            $time->from_time = \Carbon\Carbon::parse($time->delivery_from)->format('H:i');
-
-            $time->to_date   = \Carbon\Carbon::parse($time->delivery_to)->format('Y-m-d');
-            $time->to_time   = \Carbon\Carbon::parse($time->delivery_to)->format('H:i');
+            $time->from_date = Carbon::parse($time->delivery_from)->format('Y-m-d');
+            $time->from_time = Carbon::parse($time->delivery_from)->format('H:i');
+            $time->to_date   = Carbon::parse($time->delivery_to)->format('Y-m-d');
+            $time->to_time   = Carbon::parse($time->delivery_to)->format('H:i');
         }
 
         return view('admin.layouts.delivery', compact('curriculum'));
