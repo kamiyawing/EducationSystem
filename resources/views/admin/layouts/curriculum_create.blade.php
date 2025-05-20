@@ -21,10 +21,13 @@
               {{ $errors->first('thumbnail') }}
             </div>
             @endif
+            <div class="mt-3">
+              <img src="{{ asset('images/noimage.png') }}" alt="No Image" class="img-thumbnail" style="max-width: 300px;">
+            </div>
         </div>
     </div>
     <div class="row mb-3 fs-3">
-        <label for="grade" class="col-sm-2 col-form-label">学年</label>
+        <label for="grade_id" class="col-sm-2 col-form-label">学年</label>
         <div class="col-sm-4 mt-2">
           <select class="form-select col-sm-8" style="border-color:gray; border-width: 2px;" aria-label="Default select example" id="grade_id" name="grade_id">
               @foreach($grades as $grade)
@@ -74,8 +77,9 @@
         </div>
     </div>
     <div class="form-check mb-3 fs-3 ms-5">
-        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-        <label class="form-check-label" for="flexCheckChecked">常時公開</label>
+        <input type="hidden" name="alway_delivery_flg" value="0">
+        <input class="form-check-input" type="checkbox" value="1" id="alway_delivery_flg" name="alway_delivery_flg" checked>
+        <label class="form-check-label" for="alway_delivery_flg">常時公開</label>
     </div>
     <div class="text-center mt-3">
       <button type="submit" class="btn btn-primary fs-3">登録</button>

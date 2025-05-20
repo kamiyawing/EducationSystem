@@ -41,22 +41,22 @@ class CurriculumController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function exeCurriculumStore(CurriculumRequest $request)
-    {
+        public function exeCurriculumStore(CurriculumRequest $request)
+        {
 
-        \DB::beginTransaction();
-        try {
-            $curriculum = Curriculum::createFromRequest($request);
-            \DB::commit();
-        } catch (\Exception $e) {
-            \DB::rollBack();
-            throw $e;
+            \DB::beginTransaction();
+            try {
+                $curriculum = Curriculum::createFromRequest($request);
+                \DB::commit();
+            } catch (\Exception $e) {
+                \DB::rollBack();
+                throw $e;
+            }
+
+            \Session::flash('err_msg','授業を登録しました');
+            return redirect(route('admin.show.curriculum.list'));
+
         }
-
-        \Session::flash('err_msg','授業を登録しました');
-        return redirect(route('admin.show.curriculum.list'));
-
-    }
 
     /**
      * Display the specified resource.
