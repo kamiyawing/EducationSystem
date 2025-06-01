@@ -26,10 +26,11 @@ class CurriculumRequest extends FormRequest
 
         $rules = [
 
-            'title' => ['required'],
+            'title' => ['required' , 'max:255'],
+            'thumbnail' => ['nullable', 'image'], 
             'grade_id' => ['required'],
-            'video_url' => ['required'],
-            'description' => ['required'],
+            'video_url' => ['required' , 'active_url'],
+            'description' => ['required' , 'max:500'],
 
         ];
 

@@ -10,16 +10,6 @@
     <h1 class="display-6 ">授業設定</h1>
   </div>
 
-  @if ($errors->any())
-  <div class="alert alert-danger">
-    <ul class="mb-0">
-      @foreach ($errors->all() as $error)
-        <li>{{ $error }}</li>
-      @endforeach
-    </ul>
-  </div>
-  @endif
-
   <form method="POST" action="{{ route('admin.exe.curriculum.update' , ['id' => $curriculums->id]) }}" enctype="multipart/form-data">
   @csrf
     <div class="row mb-3 fs-3">
@@ -59,11 +49,9 @@
       <div class="col-sm-8 mt-2">
         <input type="text" class="form-control" style="border-color:gray; border-width: 2px;" name="title" id="title"
         value="{{ old('title', $curriculums->title) }}">
-        @if ($errors->has('title'))
           <div class="text-danger">
             {{ $errors->first('title') }}
           </div>
-        @endif
       </div>
     </div>
     <div class="row mb-3 fs-3">
@@ -71,22 +59,18 @@
         <div class="col-sm-8 mt-2">
           <input type="text" class="form-control" style="border-color:gray; border-width: 2px;" name="video_url" id="video_url"
           value="{{ old('video_url', $curriculums->video_url) }}">
-          @if ($errors->has('video_url'))
             <div class="text-danger">
               {{ $errors->first('video_url') }}
             </div>
-          @endif
         </div>
     </div>
     <div class="row mb-5 fs-3">
         <label for="description" class="col-sm-2 col-form-label">授業概要</label>
         <div class="col-sm-8 mt-2">
             <textarea class="form-control" style="border-color:gray; border-width: 2px;" name="description" id="description" rows="3">{{ old('description', $curriculums->description) }}</textarea>
-            @if ($errors->has('description'))
               <div class="text-danger">
                 {{ $errors->first('description') }}
               </div>
-            @endif
         </div>
     </div>
     <div class="form-check mb-3 fs-3 ms-5">

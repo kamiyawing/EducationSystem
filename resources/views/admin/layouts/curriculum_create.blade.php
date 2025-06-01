@@ -46,7 +46,8 @@
     <div class="row mb-3 fs-3">
       <label for="title" class="col-sm-2 col-form-label">授業名</label>
       <div class="col-sm-8 mt-2">
-        <input type="text" class="form-control" style="border-color:gray; border-width: 2px;" id="title" name="title">
+        <input type="text" class="form-control" style="border-color:gray; border-width: 2px;" id="title" name="title"
+        value="{{ old('title') }}" >
           @if ($errors->has('title'))
           <div class="text-danger">
             {{ $errors->first('title') }}
@@ -57,7 +58,8 @@
     <div class="row mb-3 fs-3">
         <label for="video_url" class="col-sm-2 col-form-label">動画URL</label>
         <div class="col-sm-8 mt-2">
-          <input type="text" class="form-control" style="border-color:gray; border-width: 2px;" id="video_url" name="video_url">
+          <input type="text" class="form-control" style="border-color:gray; border-width: 2px;" id="video_url" name="video_url"
+          value="{{ old('video_url') }}" >
             @if ($errors->has('video_url'))
             <div class="text-danger">
               {{ $errors->first('video_url') }}
@@ -68,7 +70,7 @@
     <div class="row mb-5 fs-3">
         <label for="description" class="col-sm-2 col-form-label">授業概要</label>
         <div class="col-sm-8 mt-2">
-          <textarea class="form-control" style="border-color:gray; border-width: 2px;" rows="3" id="description" name="description"></textarea>
+          <textarea class="form-control" style="border-color:gray; border-width: 2px;" rows="3" id="description" name="description">{{ old('description') }}</textarea>
             @if ($errors->has('description'))
             <div class="text-danger">
               {{ $errors->first('description') }}

@@ -15,7 +15,7 @@ return [
 
     'accepted' => 'The :attribute must be accepted.',
     'accepted_if' => 'The :attribute must be accepted when :other is :value.',
-    'active_url' => 'The :attribute is not a valid URL.',
+    'active_url' => 'その:attributeは有効ではありません。',
     'after' => 'The :attribute must be a date after :date.',
     'after_or_equal' => 'The :attribute must be a date after or equal to :date.',
     'alpha' => 'The :attribute must only contain letters.',
@@ -65,7 +65,7 @@ return [
         'numeric' => 'The :attribute must be greater than or equal to :value.',
         'string' => 'The :attribute must be greater than or equal to :value characters.',
     ],
-    'image' => 'The :attribute must be an image.',
+    'image' => 'ファイル形式が異なります。',
     'in' => 'The selected :attribute is invalid.',
     'in_array' => 'The :attribute field does not exist in :other.',
     'integer' => 'The :attribute must be an integer.',
