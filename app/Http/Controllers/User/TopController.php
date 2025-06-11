@@ -1,0 +1,15 @@
+<?php
+
+namespace App\Http\Controllers\User;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+
+class TopController extends Controller
+{
+    public function index()
+    {
+        return view('user.top'); // `resources/views/user/top.blade.php` を表示
+    }
+    //
+}

@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+<h1>ホーム画面へようこそ！</h1> <!-- 追加 -->
+<p>このページはログイン後のダッシュボードです。</p> <!-- 追加 -->
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
