@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\BannerController;
 
 // 認証関連のルートAuth::routes(); 
 
+
 // ログイン
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
@@ -36,8 +37,10 @@ Route::view('/register','user.auth.register')->name('user.register');
 // ユーザーのメインページ
 Route::get('/home', [TopController::class, 'index'])->name('home');
 
+
+
 // 記事・カリキュラム・進捗管理系
-Route::get('/announcements', [ArticleController::class, 'index'])->name('announcements.index');
+Route::get('/article/{id}', [ArticleController::class, 'showArticle'])->name('show.article');
 Route::get('/curriculums', [CurriculumController::class, 'index'])->name('curriculums.index');
 Route::get('/curriculums/{curriculum}/edit', [CurriculumController::class, 'edit'])->name('curriculums.edit');
 Route::get('/progress', [ProgressController::class, 'index'])->name('progress.index');
@@ -49,7 +52,7 @@ Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.e
 
 // バナー管理系
 Route::get('/banners', [BannerController::class, 'index'])->name('banners.index');
-Route::post('/banner/switch', [BannerController::class, 'switch'])->name('banner.switch');
+Route::get('/banner/switchBanner', [BannerController::class, 'switchBanner'])->name('banner.switch');
 
 
 // 配信

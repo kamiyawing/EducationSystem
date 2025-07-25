@@ -15,7 +15,6 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-
 </head>
 <body>
     <div id="app">
@@ -69,5 +68,8 @@
             </div>
         </main>
     </div>
+    
+    <!-- ページ固有のスクリプトがあればここに挿入される -->
+    @yield('scripts')
 </body>
 </html>

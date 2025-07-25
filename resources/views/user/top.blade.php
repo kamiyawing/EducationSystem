@@ -5,9 +5,13 @@
 @section('banner')
 <div class="row mb-4">
     <div class="col-md-8 offset-md-2 text-center">
-        <img src="/storage/images/banner/banner1.jpg" alt="バナー画像" class="img-fluid">
+        <!-- 初期表示のバナー画像 -->
+        <img id="banner-image" src="{{ asset('storage/images/banner/banner1.png') }}" alt="バナー画像" class="img-fluid">
         <div class="mt-2">
-            <a href="{{ route('banner.switch') }}" class="btn btn-secondary">バナー切替</a>
+            <!-- ボタンタグに変更（aタグではなく）、クリック時にページ遷移しないように設定 -->
+            <button type="button" id="switch-banner-button" data-current-banner-id="1" class="btn btn-secondary">
+                バナー切替
+            </button>
         </div>
     </div>
 </div>
@@ -15,13 +19,10 @@
 
 @section('content')
 <div class="container py-4">
-
-
     <!-- 各機能ボタン -->
     <div class="row text-center mb-4">
         <div class="col-md-3 mb-2">
-        <a href="{{ route('curriculums.index') }}" class="btn btn-primary w-100">時間割</a>
-
+            <a href="{{ route('curriculums.index') }}" class="btn btn-primary w-100">時間割</a>
         </div>
         <div class="col-md-3 mb-2">
             <a href="{{ route('progress.index') }}" class="btn btn-success w-100">授業進捗</a>
@@ -50,20 +51,58 @@
             <div class="card">
                 <div class="card-header text-center">お知らせ</div>
                 <div class="card-body">
+                    <!-- DBから取得した記事データ($articles)をループで表示 -->
                     <ul class="list-group">
-                        <li class="list-group-item">
-                            <strong>2025-03-20</strong> - 新しいカリキュラムが追加されました。
-                        </li>
-                        <li class="list-group-item">
-                            <strong>2025-03-18</strong> - サーバーメンテナンスのお知らせ。
-                        </li>
-                        <li class="list-group-item">
-                            <strong>2025-03-15</strong> - 春休み特別キャンペーン開始！
-                        </li>
+                        @foreach($articles as $article)
+                            <li class="list-group-item">
+                                <strong>{{ $article->created_at->format('Y-m-d') }}</strong> -
+                                <!-- タイトルをaタグで囲み、詳細ページへのリンク（ルート名「article」）とする -->
+                                <a href="{{ route('show.article', $article->id) }}">
+                                    {{ $article->title }}
+                                </a>
+                            </li>
+                        @endforeach
                     </ul>
                 </div>
             </div>
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<!-- jQuery の読み込み -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function(){
+    $('#switch-banner-button').on('click', function(e) {
+        // クリック時のデフォルト動作（ページ遷移）を防止
+        e.preventDefault();
+        
+        // 現在表示中のバナーIDをdata属性から取得
+        var currentId = $(this).data('current-banner-id');
+        
+        // Ajaxでバナー切替APIを呼び出す
+        $.ajax({
+            url: "{{ route('banner.switch') }}",
+            method: "GET",
+            data: { current_banner_id: currentId },
+            dataType: "json",
+            success: function(response) {
+                if (response.success) {
+                    // 返却された image_url で画像を更新
+                    $('#banner-image').attr('src', response.image_url);
+                    // 次回呼び出し用の current_banner_id を更新
+                    $('#switch-banner-button').data('current-banner-id', response.banner_id);
+                } else {
+                    alert('バナーの切り替えに失敗しました。');
+                }
+            },
+            error: function(xhr, status, error) {
+                alert('エラーが発生しました: ' + error);
+            }
+        });
+    });
+});
+</script>
 @endsection
