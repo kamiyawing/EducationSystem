@@ -13,5 +13,8 @@
     "postcss": "^8.1.14",
     "sass": "^1.56.1",
     "vite": "^4.5.11"
+  },
+  "dependencies": {
+    "esbuild": "^0.25.8"
   }
 }

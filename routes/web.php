@@ -18,60 +18,67 @@ use App\Http\Controllers\Admin\BannerController;
 
 // 認証関連のルートAuth::routes(); 
 
+Route::prefix('user')->group(function () {
+    // ログイン
+    Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [LoginController::class, 'login']);
 
-// ログイン
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [LoginController::class, 'login']);
+    // ログアウト
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-// ログアウト
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
-
-
-
-// 新規会員登録のルートをカスタムで定義
-//Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('user.register');
-Route::post('/register', [RegisterController::class, 'register'])->name('new.register');
-Route::view('/register','user.auth.register')->name('user.register');
+        // 新規会員登録のルートをカスタムで定義
+    //Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('user.register');
+    Route::post('/register', [RegisterController::class, 'register'])->name('new.register');
+    Route::view('/register','user.auth.register')->name('user.register');
 
 
-// ユーザーのメインページ
-Route::get('/home', [TopController::class, 'index'])->name('home');
+    // ユーザーのメインページ
+    Route::get('/home', [TopController::class, 'index'])->name('home');
+
+    // 記事・カリキュラム・進捗管理系
+    Route::get('/article/{id}', [ArticleController::class, 'showArticle'])->name('show.article');
+    Route::get('/curriculums', [CurriculumController::class, 'index'])->name('curriculums.index');
+    Route::get('/curriculums/{curriculum}/edit', [CurriculumController::class, 'edit'])->name('curriculums.edit');
+    Route::get('/progress', [ProgressController::class, 'index'])->name('progress.index');
+    Route::post('/curriculums/filter/{grade}', [CurriculumController::class, 'filterByGrade'])
+        ->name('curriculums.filterByGrade');
+        
+    // プロフィール・設定系
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+
+    // バナー管理系
+    Route::get('/banners', [BannerController::class, 'index'])->name('banners.index');
+    Route::get('/banner/switchBanner', [BannerController::class, 'switchBanner'])->name('banner.switch');
 
 
-
-// 記事・カリキュラム・進捗管理系
-Route::get('/article/{id}', [ArticleController::class, 'showArticle'])->name('show.article');
-Route::get('/curriculums', [CurriculumController::class, 'index'])->name('curriculums.index');
-Route::get('/curriculums/{curriculum}/edit', [CurriculumController::class, 'edit'])->name('curriculums.edit');
-Route::get('/progress', [ProgressController::class, 'index'])->name('progress.index');
-Route::post('/curriculums/filter/{grade}', [CurriculumController::class, 'filterByGrade'])
-    ->name('curriculums.filterByGrade');
-    
-// プロフィール・設定系
-Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-
-// バナー管理系
-Route::get('/banners', [BannerController::class, 'index'])->name('banners.index');
-Route::get('/banner/switchBanner', [BannerController::class, 'switchBanner'])->name('banner.switch');
+    // 配信
+    Route::get('/delivery', [DeliveryController::class, 'index'])->name('delivery.index');
+    Route::get('/delivery/{id}', [DeliveryController::class, 'show'])->name('delivery.show');
+    Route::get('/delivery/watch/{id}', [DeliveryController::class, 'watch'])->name('delivery.watch');
+    Route::post('/delivery/complete/{id}', [DeliveryController::class, 'complete'])->name('delivery.complete');
 
 
-// 配信
-Route::get('/delivery', [DeliveryController::class, 'index'])->name('delivery.index');
-Route::get('/delivery/{id}', [DeliveryController::class, 'show'])->name('delivery.show');
-Route::get('/delivery/watch/{id}', [DeliveryController::class, 'watch'])->name('delivery.watch');
-Route::post('/delivery/complete/{id}', [DeliveryController::class, 'complete'])->name('delivery.complete');
+    Route::get('/confirm-password', [App\Http\Controllers\User\Auth\ConfirmPasswordController::class, 'showConfirmForm'])->name('password.confirm');
+    Route::post('/confirm-password', [App\Http\Controllers\User\Auth\ConfirmPasswordController::class, 'confirm']);
 
-
-Route::get('/confirm-password', [App\Http\Controllers\User\Auth\ConfirmPasswordController::class, 'showConfirmForm'])->name('password.confirm');
-Route::post('/confirm-password', [App\Http\Controllers\User\Auth\ConfirmPasswordController::class, 'confirm']);
-
+  
+});
 
 
 
 
 
 
-// Route::prefix('user')->namespace('User')->name('user.')->group(function () {
+
+
+
+
+
+
+
+
+
+// Route::prefix('user')->namespace('user')->name('user.')->group(function () {
 //     // ログイン画面
 //     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 

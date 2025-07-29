@@ -119,7 +119,7 @@ class BannerController extends Controller
 
         // DBに登録されたパスは "storage/images/banner/ファイル名" となっているため、
         // asset() で正しいURLを生成できる
-        $imageUrl = asset($nextBanner->image);
+        $imageUrl = asset('storage/images/banner/'.$nextBanner->image);
 
         return response()->json([
             'success'   => true,

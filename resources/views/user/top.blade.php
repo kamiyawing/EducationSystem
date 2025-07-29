@@ -90,6 +90,7 @@ $(document).ready(function(){
             dataType: "json",
             success: function(response) {
                 if (response.success) {
+                    console.log(response.image_url)
                     // 返却された image_url で画像を更新
                     $('#banner-image').attr('src', response.image_url);
                     // 次回呼び出し用の current_banner_id を更新
