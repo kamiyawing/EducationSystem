@@ -4,23 +4,23 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Delivery; // ここでモデルをインポート
+use App\Models\Curriculum; // ここでモデルをインポート
 
 class DeliveryController extends Controller
 {
     public function index()
     {
-        $deliveries = Delivery::all(); // 配送データを取得
-        return view('user.delivery', compact('deliveries'));
+        $curriculums = Curriculum::all(); // 配送データを取得
+        return view('user.delivery', compact('curriculums'));
     }
     public function show($id)
     {
-        $delivery = Delivery::findOrFail($id);
+        $curriculums = Curriculum::findOrFail($id);
         return view('user.delivery', compact('delivery'));
     }
     public function watch($id)
     {
-        $delivery = Delivery::findOrFail($id);
+        $curriculums = Curriculum::findOrFail($id);
         return view('user.delivery_watch', compact('delivery'));
     }
 

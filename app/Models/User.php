@@ -81,10 +81,10 @@ class User extends Authenticatable
         return $this->belongsTo(Grade::class);
     }
 
-    public function completedDeliveries()
-    {
-        return $this->belongsToMany(\App\Models\Delivery::class, 'completed_deliveries', 'user_id', 'delivery_id')
-                    ->withTimestamps();
-    }
+   // public function completedDeliveries()
+   // {
+    //    return $this->belongsToMany(\App\Models\Delivery::class, 'completed_deliveries', 'user_id', 'delivery_id')
+    //                ->withTimestamps();
+   // }
 
 }

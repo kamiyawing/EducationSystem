@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('delivery_times', function (Blueprint $table) {
             $table->id();
-            $table->integer('curriculums_id')->notnull();
+            $table->integer('curriculum_id')->notnull();
             $table->dateTime('delivery_from')->notnull();
             $table->dateTime('delivery_to')->notnull();
             $table->timestamps();
