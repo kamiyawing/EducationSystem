@@ -23,57 +23,83 @@
                 </div>
             @endforeach
         </div>
-    @elseif(isset($delivery))
-        <!-- 詳細表示 -->
-        <h2 class="text-center mb-4">{{ $delivery->title }} - 配信詳細</h2>
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-body">
-                        @if($delivery->thumbnail)
-                            <div class="text-center mb-3">
-                                <img src="{{ asset($delivery->thumbnail) }}" class="img-fluid rounded" alt="サムネイル">
-                            </div>
-                        @endif
-
-                        <h4 class="card-title">{{ $delivery->title }}</h4>
-                        <p class="card-text">{{ $delivery->description }}</p>
-
-                        <!-- 学年の追加 -->
-                        <div class="mb-3">
-                            <strong>学年:</strong> {{ $delivery->grade ?? '未設定' }}
-                        </div>
-
-                        <div class="mb-3">
-                            <strong>配信開始:</strong> {{ $delivery->start_time }}<br>
-                            <strong>配信終了:</strong> {{ $delivery->end_time }}
-                        </div>
-
-                        @if(now()->between($delivery->start_time, $delivery->end_time))
-                            <a href="{{ route('delivery.watch', $delivery->id) }}" class="btn btn-primary w-100">視聴開始</a>
-                        @else
-                            <button class="btn btn-secondary w-100" disabled>配信時間外</button>
-                        @endif
-                        <!-- 受講済み状態チェック -->
-                        @if(auth()->check() && auth()->user()->completedDeliveries->contains($delivery->id))
-                            <div class="alert alert-success mt-3">受講済みです</div>
-                        @else
-                        <!-- 受講しましたボタンを追加 -->
-                        <div class="mt-3">
-                            <form action="{{ route('delivery.complete', $delivery->id) }}" method="POST">
-                                @csrf
-                                <button type="submit" class="btn btn-success w-100">受講しました</button>
-                            </form>
-                        </div>
-                        @endif
-                        <!-- 戻るボタンを追加 -->
-                        <div class="mt-3">
-                            <a href="{{ route('delivery.index') }}" class="btn btn-secondary w-100">戻る</a>
-                        </div>
+        @elseif(isset($delivery))
+<!-- 詳細表示 -->
+<h2 class="text-center mb-4">{{ $delivery->title }} - 配信詳細</h2>
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                {{-- サムネイル --}}
+                @if($delivery->thumbnail)
+                    <div class="text-center mb-3">
+                        <img src="{{ asset($delivery->thumbnail) }}" class="img-fluid rounded" alt="サムネイル">
                     </div>
+                @endif
+
+                {{-- 授業タイトル --}}
+                <h4 class="card-title">{{ $delivery->curriculum->title ?? $delivery->title }}</h4>
+
+                {{-- 授業内容 --}}
+                <p class="card-text">{{ $delivery->curriculum->description ?? '授業内容が未登録です' }}</p>
+
+                {{-- 学年 --}}
+                <div class="mb-3">
+                    <strong>学年:</strong> {{ $delivery->curriculum->grade->name ?? '未設定' }}
+                </div>
+
+                {{-- 配信時間 --}}
+                <div class="mb-3">
+                    <strong>配信開始:</strong> {{ $delivery->start_time }}<br>
+                    <strong>配信終了:</strong> {{ $delivery->end_time }}
+                </div>
+
+                {{-- 動画表示（video_path または curriculum.video_url） --}}
+                @if ($delivery->video_path)
+                    <video controls width="100%" class="mb-3">
+                        <source src="{{ asset($delivery->video_path) }}" type="video/mp4">
+                        お使いのブラウザは動画再生に対応していません。
+                    </video>
+                @elseif ($delivery->curriculum->video_url)
+                    <iframe width="100%" height="315"
+                        src="{{ $delivery->curriculum->video_url }}"
+                        frameborder="0"
+                        allowfullscreen>
+                    </iframe>
+                @else
+                    <p>動画は未登録です</p>
+                @endif
+
+                {{-- 受講ボタン --}}
+                @if(auth()->check())
+                @php
+                    $progress = auth()->user()
+                        ->curriculumProgress
+                        ->firstWhere('curriculum_id', $delivery->curriculum_id);
+                @endphp
+
+                @if($progress && $progress->clear_flg === 1)
+                    <div class="alert alert-success mt-3">受講済みです</div>
+                @else
+                    <div class="mt-3">
+                        <form action="{{ route('delivery.complete', $delivery->id) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-success w-100">受講しました</button>
+                        </form>
+                    </div>
+                @endif
+            @endif
+
+
+                {{-- 戻るボタン --}}
+                <div class="mt-3">
+                    <a href="{{ route('delivery.index') }}" class="btn btn-secondary w-100">戻る</a>
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
     @else
         <!-- データがない場合 -->
         <p class="text-center">表示するデータがありません。</p>

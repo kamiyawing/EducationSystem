@@ -12,7 +12,7 @@ class CurriculumProgress extends Model
     protected $fillable = [
         'user_id',
         'curriculum_id',
-        'progress',
+        'clear_flg',
     ];
 
     public function user()

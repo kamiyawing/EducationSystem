@@ -69,12 +69,11 @@ class User extends Authenticatable
         ]);
     }
 
-    public function curriculum_progress()
+    public function curriculumProgress()
     {
-        return $this->belongsToMany(Curriculum::class, 'curriculum_progress', 'users_id', 'curriculums_id')
-                    ->withPivot('clear_flg')
-                    ->as('progress');
+        return $this->hasMany(\App\Models\CurriculumProgress::class, 'user_id');
     }
+
 
     public function grade():BelongsTo 
     {
