@@ -55,7 +55,7 @@
                     <ul class="list-group">
                         @foreach($articles as $article)
                             <li class="list-group-item">
-                                <strong>{{ $article->created_at->format('Y-m-d') }}</strong> -
+                            <strong>{{ \Carbon\Carbon::parse($article->posted_date)->format('Y-m-d') }}</strong> -
                                 <!-- タイトルをaタグで囲み、詳細ページへのリンク（ルート名「article」）とする -->
                                 <a href="{{ route('show.article', $article->id) }}">
                                     {{ $article->title }}
